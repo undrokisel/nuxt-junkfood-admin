@@ -41,7 +41,7 @@ const formSchema = z.object({
     price: z.coerce
         .number()
         .min(1, 'минимум один символ')
-        .max(99999, 'максимум 99999 руб.'),
+        .max(1000, 'максимум 1000 руб.'),
     categoryId: z.string().min(1, 'минимум один символ'),
     imageUrl: z.string().min(1, 'минимум один символ'),
     description: z
