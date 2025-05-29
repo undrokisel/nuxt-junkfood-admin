@@ -8,61 +8,61 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  fullName String
-  email    String @unique
-  password String
+    id       Int    @id @default(autoincrement())
+    fullName String
+    email    String @unique
+    password String
 
-  role UserRole @default(USER)
+    role UserRole @default(USER)
 
-  // подтверждение пользователя
-  // в т.ч. после аутентификации через соцсети (OAuth)
-  verified DateTime?
+    // подтверждение пользователя
+    // в т.ч. после аутентификации через соцсети (OAuth)
+    verified DateTime? @default(now())
 
-  //для отслеживания пользователя, зашедшего через социальную сеть
-  // пример, через гитхаб или gmail
-  // todo: через ВК
-  provider   String?
-  providerId String?
+    //для отслеживания пользователя, зашедшего через социальную сеть
+    // пример, через гитхаб или gmail
+    // todo: через ВК
+    provider   String?
+    providerId String?
 
-  // связь: у одного пользователя 
-  // может быть связь с одной корзиной
-  // т.е. после оформления заказа корзины будут удаляться ?
-  cart   Cart?
-  // связь: у одного пользователя 
-  // может быть много заказов
-  orders Order[]
+    // связь: у одного пользователя 
+    // может быть связь с одной корзиной
+    // т.е. после оформления заказа корзины будут удаляться ?
+    cart   Cart?
+    // связь: у одного пользователя 
+    // может быть много заказов
+    orders Order[]
 
-  // у одного пользователя может быть один код
-  // по сути от этого зависит поле verified
-  // опционально, потому что в момент создания юзер еще не имеет этого кода
-  // код может быть запрошен позднее
-  verificationCode VerificationCode?
+    // у одного пользователя может быть один код
+    // по сути от этого зависит поле verified
+    // опционально, потому что в момент создания юзер еще не имеет этого кода
+    // код может быть запрошен позднее
+    verificationCode VerificationCode?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model Product {
-  id          Int     @id @default(autoincrement())
-  name        String
-  imageUrl    String
-  description String?
+    id          Int     @id @default(autoincrement())
+    name        String
+    imageUrl    String
+    description String?
 
-  // у одного продукта может быть только одна категория
-  category   Category @relation(fields: [categoryId], references: [id])
-  categoryId Int
+    // у одного продукта может быть только одна категория
+    category   Category @relation(fields: [categoryId], references: [id])
+    categoryId Int
 
-  // у одного продукта может быть
-  // связь со многими ингридиентами
-  ingredients Ingredient[]
-  // у одного продукта может быть
-  // связь со многими вариантами продукта
-  variants    ProductVariant[]
-  deletedAt   DateTime?
+    // у одного продукта может быть
+    // связь со многими ингридиентами
+    ingredients Ingredient[]
+    // у одного продукта может быть
+    // связь со многими вариантами продукта
+    variants    ProductVariant[]
+    deletedAt   DateTime?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 // вариация продукта (обязательно имеет цену
@@ -72,54 +72,53 @@ model Product {
 // какой либо вариации (размера, типа чето-то), 
 // кроме ингридиентов, которые вынесены в отдельную модель
 model ProductVariant {
-  id Int @id @default(autoincrement())
+    id Int @id @default(autoincrement())
 
-  price     Int
-  size      Int? // большой, малый, средний размер всего
-  doughType Int? // варианты лаваша - сырный, томатный, обычный 
+    price     Int
+    size      Int? // большой, малый, средний размер всего
+    doughType Int? // варианты лаваша - сырный, томатный, обычный 
 
-  // связь: один вариант имеет связь с одним продуктом
-  product   Product @relation(fields: [productId], references: [id])
-  productId Int
-  
-  deletedAt DateTime?
+    // связь: один вариант имеет связь с одним продуктом
+    product   Product @relation(fields: [productId], references: [id])
+    productId Int
 
-  // связь: один вариант продукта может относиться к товарам из разных корзин
-  cartItems CartItem[]
-  // и заказов
-  // временное решение: OrderItem не создавать, хранить товары заказа в Json
-  // orderItems OrderItem[]
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+    // связь: один вариант продукта может относиться к товарам из разных корзин
+    cartItems CartItem[]
+    // и заказов
+    // временное решение: OrderItem не создавать, хранить товары заказа в Json
+    // orderItems OrderItem[]
+    deletedAt DateTime?
+    createdAt DateTime   @default(now())
+    updatedAt DateTime   @updatedAt
 }
 
 model Category {
-  id   Int    @id @default(autoincrement())
-  name String @unique
+    id   Int    @id @default(autoincrement())
+    name String @unique
 
-  // связь: одна категория может иметь отношение к разным продуктам
-  products Product[]
+    // связь: одна категория может иметь отношение к разным продуктам
+    products Product[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model Ingredient {
-  id       Int    @id @default(autoincrement())
-  name     String @unique
-  price    Int
-  imageUrl String
+    id       Int    @id @default(autoincrement())
+    name     String @unique
+    price    Int
+    imageUrl String
 
-  // связь: один ингредиент может иметь отношение к разным продуктам
-  products  Product[]
-  // связь: один ингредиент может находиться в разных (во многих) товарах корзин
-  cartItems CartItem[]
-  // и заказов
-  // временное решение: OrderItem не создавать, хранить товары заказа в Json
-  // orderItems OrderItem[]
+    // связь: один ингредиент может иметь отношение к разным продуктам
+    products  Product[]
+    // связь: один ингредиент может находиться в разных (во многих) товарах корзин
+    cartItems CartItem[]
+    // и заказов
+    // временное решение: OrderItem не создавать, хранить товары заказа в Json
+    // orderItems OrderItem[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 // корзина
@@ -129,23 +128,23 @@ model Ingredient {
 // пользователь может иметь корзину без авторизации
 // для этого на сессию будет выдаваться токен
 model Cart {
-  id Int @id @default(autoincrement())
+    id Int @id @default(autoincrement())
 
-  // связь: одна корзина принадлежит только одному пользователю
-  // в анонимном случае, корзина может и не быть привязана к пользователю
-  user   User? @relation(fields: [userId], references: [id])
-  userId Int?  @unique
+    // связь: одна корзина принадлежит только одному пользователю
+    // в анонимном случае, корзина может и не быть привязана к пользователю
+    user   User? @relation(fields: [userId], references: [id])
+    userId Int?  @unique
 
-  // связь: корзина может состоять из многих "продуктов в корзине"
-  items CartItem[]
+    // связь: корзина может состоять из многих "продуктов в корзине"
+    items CartItem[]
 
-  // если есть токен, то значит корзина анонимная
-  token String?
+    // если есть токен, то значит корзина анонимная
+    token String?
 
-  totalAmount Int @default(0)
+    totalAmount Int @default(0)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 // "продукт в корзине".
@@ -155,88 +154,88 @@ model Cart {
 // + набор ингридиентов и их цена
 // и соответственно общая стоимость и количество таких продуктов
 model CartItem {
-  id Int @id @default(autoincrement())
+    id Int @id @default(autoincrement())
 
-  // связь: один продукт из корзины может относиться только к одной конкретной корзине
-  cart   Cart @relation(fields: [cartId], references: [id])
-  cartId Int
+    // связь: один продукт из корзины может относиться только к одной конкретной корзине
+    cart   Cart @relation(fields: [cartId], references: [id])
+    cartId Int
 
-  // связь: один продукт из корзины может иметь только один 
-  // productVariant имеющий свою цену
-  productVariant   ProductVariant @relation(fields: [productVariantId], references: [id])
-  productVariantId Int
+    // связь: один продукт из корзины может иметь только один 
+    // productVariant имеющий свою цену
+    productVariant   ProductVariant @relation(fields: [productVariantId], references: [id])
+    productVariantId Int
 
-  // количество штук продукта конкретного варианта в заказе
-  quantity Int @default(1)
+    // количество штук продукта конкретного варианта в заказе
+    quantity Int @default(1)
 
-  totalPrice Int @default(0)
+    totalPrice Int @default(0)
 
-  ingredients Ingredient[]
+    ingredients Ingredient[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 // заказ может создать также и анонимный пользователь
 // в заказе может храниться информация о получателе, не совпадающая с данными пользователя
 // по сути - информация для курьера/выдачи
 model Order {
-  id Int @id @default(autoincrement())
+    id Int @id @default(autoincrement())
 
-  // связь:  заказ принадлежит только одному пользователю
-  user   User? @relation(fields: [userId], references: [id])
-  userId Int?
+    // связь:  заказ принадлежит только одному пользователю
+    user   User? @relation(fields: [userId], references: [id])
+    userId Int?
 
-  // заказ может создать также и анонимный пользователь
-  // для связи с корзиной временное решение. 
-  token String?
+    // заказ может создать также и анонимный пользователь
+    // для связи с корзиной временное решение. 
+    token String?
 
-  // связь: заказ может состоять из многих "продуктов в заказе"
-  // items OrderItem[]
-  // временное решение: товары в заказе будут прямо сохранены в json
-  // чтобы не прописывать связь с корзиной и cartItems
-  // смысл в том, что товары в оформленном заказе уже не будут редактироваться
-  items Json
+    // связь: заказ может состоять из многих "продуктов в заказе"
+    // items OrderItem[]
+    // временное решение: товары в заказе будут прямо сохранены в json
+    // чтобы не прописывать связь с корзиной и cartItems
+    // смысл в том, что товары в оформленном заказе уже не будут редактироваться
+    items Json
 
-  totalAmount Int @default(0)
+    totalAmount Int @default(0)
 
-  // статус оплаты
-  status OrderStatus @default(PENDING)
+    // статус оплаты
+    status OrderStatus @default(PENDING)
 
-  // статус оплаты
-  delivery_status DeliveryStatus @default(PENDING)
+    // статус оплаты
+    delivery_status DeliveryStatus @default(PENDING)
 
-  // способ оплаты - картой - кэш
-  // paymentType PaymentType
+    // способ оплаты - картой - кэш
+    // paymentType PaymentType
 
-  // ссылка на оплату от сервиса приема платежей
-  // необходимо также для кейсов возврата платежей 
-  paymentId String?
+    // ссылка на оплату от сервиса приема платежей
+    // необходимо также для кейсов возврата платежей 
+    paymentId String?
 
-  // способ получения - курьер - самовывоз
-  // deliveryType DeliveryType
+    // способ получения - курьер - самовывоз
+    // deliveryType DeliveryType
 
-  // информация для выдачи/курьера
-  fullName String
-  address  String
-  email    String
-  phone    String
-  comment  String?
+    // информация для выдачи/курьера
+    fullName String
+    address  String
+    email    String
+    phone    String
+    comment  String?
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 enum OrderStatus {
-  PENDING //только создан, не оплачен
-  PAYD
-  CANCELLED
+    PENDING //только создан, не оплачен
+    PAYD
+    CANCELLED
 }
 
 enum DeliveryStatus {
-  PENDING //только создан, не оплачен
-  FULLFILED
-  CANCELLED
+    PENDING //только создан, не оплачен
+    FULLFILED
+    CANCELLED
 }
 
 // enum DeliveryType {
@@ -250,20 +249,20 @@ enum DeliveryStatus {
 // }
 
 enum UserRole {
-  ADMIN
-  USER
+    ADMIN
+    USER
 }
 
 model VerificationCode {
-  id Int @id @default(autoincrement())
+    id Int @id @default(autoincrement())
 
-  // связь: один код принадлежит одному пользователю
-  user   User @relation(fields: [userId], references: [id])
-  userId Int  @unique
+    // связь: один код принадлежит одному пользователю
+    user   User @relation(fields: [userId], references: [id])
+    userId Int  @unique
 
-  code      String
-  // expiresAt DateTime @default(now())
-  createdAt DateTime @default(now())
+    code      String
+    // expiresAt DateTime @default(now())
+    createdAt DateTime @default(now())
 }
 
 // временно решение: чтобы не плодить таблицы, решено 
@@ -288,42 +287,80 @@ model VerificationCode {
 //     ingredients Ingredient[]
 // }
 model Story {
-  id              Int          @id @default(autoincrement())
-  previewImageUrl String
-  items           StoryItem[]
-  text            String?
-  text_color      String?
-  createdAt       DateTime     @default(now())
-  objectFit       ObjectFit    @default(contain)
-  imgPosition     ImgPosition  @default(top)
-  textPosition    TextPosition @default(bottom)
-  textSize        String?
+    id              Int          @id @default(autoincrement())
+    previewImageUrl String
+    items           StoryItem[]
+    text            String?
+    text_color      String?
+    createdAt       DateTime     @default(now())
+    objectFit       ObjectFit    @default(contain)
+    imgPosition     ImgPosition  @default(top)
+    textPosition    TextPosition @default(bottom)
+    textSize        String?
 }
 
 enum ObjectFit {
-  cover
-  contain
+    cover
+    contain
 }
 
 enum TextPosition {
-  top
-  bottom
+    top
+    bottom
 }
 
 enum ImgPosition {
-  top
-  left
-  right
-  bottom
-  center
+    top
+    left
+    right
+    bottom
+    center
 }
 
 model StoryItem {
-  id         Int      @id @default(autoincrement())
-  storyId    Int
-  story      Story    @relation(fields: [storyId], references: [id])
-  sourceUrl  String
-  createdAt  DateTime @default(now())
-  heading    String?
-  subheading String?
+    id         Int      @id @default(autoincrement())
+    storyId    Int
+    story      Story    @relation(fields: [storyId], references: [id])
+    sourceUrl  String
+    createdAt  DateTime @default(now())
+    heading    String?
+    subheading String?
+}
+
+model ApplicationVacancy {
+    id                    Int                      @id @default(autoincrement())
+    phone                 String
+    fio                   String
+    comment               String?
+    createdAt             DateTime                 @default(now())
+    status                ApplicationVacancyStatus @default(PENDING)
+    adminComment          String?
+    adminCommentCreatedAt DateTime?
+}
+
+enum ApplicationVacancyStatus {
+    PENDING
+    CANCELLED
+}
+
+model Blog {
+    id    Int    @id @default(autoincrement())
+    title String
+    slug  String
+
+    description String
+    type        ArticleType
+
+    imgSrc      String
+    readingTime String?  @default("10")
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    paragraphs Json?
+}
+
+enum ArticleType {
+    KITCHEN
+    TEAM
+    OTHER
 }

@@ -7,6 +7,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
         // if (!userId) {
         //     return new NextResponse("Unauthenticated", { status: 403 })
         // }
+        console.log(name, imageUrl, categoryId, price, description)
         if (!name) return new NextResponse("name is required", { status: 400 })
 
         if (!description) return new NextResponse("description is required", { status: 400 })
@@ -17,7 +18,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
 
         if (!price) return new NextResponse("price is required", { status: 400 })
 
-        const existedCategory = await prisma?.category.findUnique({
+        const existedCategory = await prismadb?.category.findUnique({
             where: { id: categoryId }
         })
         if (!existedCategory) {
