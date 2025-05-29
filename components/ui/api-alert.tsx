@@ -28,11 +28,11 @@ export const ApiAlert: React.FC<ApiAlertProps> = ({
 }) => {
   const onCopy = (description: string) => {
     navigator.clipboard.writeText(description)
-    toast.success("API Route copied to clipboard.")
+    toast.success("API-роут скопирован в буфер обмена.")
   }
 
   return (
-    <Alert>
+    <Alert className="overflow-x-auto bg-green-100">
       <Server className='h-4 w-4' />
       <AlertTitle className='flex items-center gap-x-2'>
         {title}

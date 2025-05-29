@@ -14,17 +14,17 @@ export const Overview: React.FC<OverviewProps> = ({ data }) => {
           dataKey='name'
           stroke='#888888'
           fontSize={12}
-          tickLine={false}
-          axisLine={false}
+          tickLine={true}
+          axisLine={true}
         />
         <YAxis
           stroke='#888888'
           fontSize={12}
-          tickLine={false}
-          axisLine={false}
-          tickFormatter={(value) => `$${value}`}
+          tickLine={true}
+          axisLine={true}
+          tickFormatter={(value) => `${value}`}
         />
-        <Bar dataKey='total' fill='#3498db' radius={[4, 4, 0, 0]} />
+        <Bar dataKey='total' fill='green' radius={[4, 4, 0, 0]} />
       </BarChart>
     </ResponsiveContainer>
   )

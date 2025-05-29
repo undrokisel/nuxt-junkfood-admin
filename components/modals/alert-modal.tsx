@@ -36,10 +36,28 @@ export const AlertModal: React.FC<AlertModalProps> = ({
       onClose={onClose}
     >
       <div className='pt-6 space-x-2 flex items-center justify-end w-full '>
-        <Button disabled={loading} variant='outline' onClick={onClose}>
+        <Button disabled={loading} variant='outline' onClick={onClose}
+        className={`
+            bg-green-200 
+              transition-all duration-300
+            hover:bg-green-400
+            focus:bg-green-400
+            hover:translate-y-1
+            focus:translate-y-1
+          `}
+        >
           Отменить
         </Button>
-        <Button disabled={loading} variant='destructive' onClick={onConfirm}>
+        <Button disabled={loading} variant='destructive' onClick={onConfirm}
+         className={`
+          bg-red-300 
+            transition-all duration-300
+          hover:bg-red-500
+          focus:bg-red-500
+          hover:translate-y-1
+          focus:translate-y-1
+        `}
+        >
           Продолжить
         </Button>
       </div>

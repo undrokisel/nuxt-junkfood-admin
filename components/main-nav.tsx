@@ -1,79 +1,89 @@
-"use client"
+'use client'
 
-import Link from "next/link"
-import { useParams, usePathname } from "next/navigation"
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { motion } from 'motion/react'
 
-import { cn } from "@/lib/utils"
+import { cn } from '@/lib/utils'
 
 export function MainNav({
-  className,
-  ...props
+    className,
+    ...props
 }: React.HTMLAttributes<HTMLElement>) {
-  const pathname = usePathname()
-  const params = useParams()
+    const pathname = usePathname()
 
-  const routes = [
-    {
-      href: `/${params.storeId}`,
-      label: "Overview",
-      active: pathname === `/${params.storeId}`,
-    },
-    {
-      href: `/billboards`,
-      label: "Billboards",
-      active: pathname === `/billboards`,
-    },
-    {
-      href: `/categories`,
-      label: "Categories",
-      active: pathname === `/categories`,
-    },
-    {
-      href: `/sizes`,
-      label: "Sizes",
-      active: pathname === `/sizes`,
-    },
-    {
-      href: `/colors`,
-      label: "Colors",
-      active: pathname === `/colors`,
-    },
-    {
-      href: `/products`,
-      label: "Products",
-      active: pathname === `/products`,
-    },
-    {
-      href: `/orders`,
-      label: "Orders",
-      active: pathname === `/orders`,
-    },
-    {
-      href: `/settings`,
-      label: "Settings",
-      active: pathname === `/settings`,
-    },
-  ]
+    const routes = [
+        {
+            href: `/`,
+            label: 'Статистика',
+            active: pathname === `/`,
+        },
+        {
+            href: `/categories`,
+            label: 'Категории',
+            active: pathname === `/categories`,
+        },
+        {
+            href: `/products`,
+            label: 'Товары',
+            active: pathname === `/products`,
+        },
+        {
+            href: `/orders`,
+            label: 'Заказы',
+            active: pathname === `/orders`,
+        },
+        {
+            href: `/users`,
+            label: 'Пользователи',
+            active: pathname === `/users`,
+        },
+    ]
 
-  return (
-    <nav
-      className={cn("flex items-center space-x-4 lg:space-x-6", className)}
-      {...props}
-    >
-      {routes.map((route) => (
-        <Link
-          key={route.href}
-          href={route.href}
-          className={cn(
-            "text-sm font-medium transition-colors hover:text-primary",
-            route.active
-              ? "text-black dark:text-white"
-              : "text-muted-foreground"
-          )}
+    return (
+        <nav
+            className={cn(
+                `flex justify-center items-center flex-wrap gap-2
+                space-x-4 lg:space-x-6 bg-gray-50 bg-transparent min-h-11 py-4
+                `,
+                className
+            )}
+            {...props}
         >
-          {route.label}
-        </Link>
-      ))}
-    </nav>
-  )
+            {routes.map((route, index) => (
+                <motion.div
+                    key={index + route.href}
+                    initial={{ y: -20, opacity:0 }}
+                    // animate={{ opacity: 1 }}
+                    whileInView={{ y: 0, opacity:1 }}
+                    transition={{ duration: 0.4 + index / 5 }}
+                    exit={{ opacity: 0 }}
+                    whileHover={{ y: 2 }}
+                    whileTap={{ y: 2 }}
+                    tabIndex={-1}
+                >
+                    <Link
+                        href={route.href}
+                        className={cn(
+                            `flex items-center font-bold h-11 rounded-xl 
+                        transition-colors duration-300 px-5
+                        hover:text-amber-200 
+                        focus:text-amber-200 
+                        focus:border-none
+                        focus:outline-none`,
+                            route.active &&
+                                `shadow-md shadow-gray-400 
+                                text-green-600
+                                bg-amber-200
+                                hover:text-green-800
+                                focus:text-green-800
+                                `
+                        )}
+                    >
+                        {route.label}
+                    </Link>
+                </motion.div>
+            ))}
+        </nav>
+    )
 }

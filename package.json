@@ -11,7 +11,10 @@
         "postinstall": "prisma generate"
     },
     "dependencies": {
-        "@clerk/nextjs": "^5.0.1",
+        "@clerk/elements": "^0.23.27",
+        "@clerk/localizations": "^3.16.1",
+        "@clerk/nextjs": "^5.7.5",
+        "@clerk/shared": "^3.9.1",
         "@hookform/resolvers": "^3.3.4",
         "@prisma/client": "^5.12.1",
         "@radix-ui/react-avatar": "^1.1.9",
@@ -31,7 +34,9 @@
         "clsx": "^2.1.0",
         "cmdk": "^1.0.0",
         "date-fns": "^3.6.0",
+        "framer-motion": "^12.12.1",
         "lucide-react": "^0.372.0",
+        "motion": "^12.12.1",
         "next": "14.2.2",
         "next-cloudinary": "^6.5.1",
         "next-themes": "^0.3.0",

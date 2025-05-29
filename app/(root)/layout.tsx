@@ -1,28 +1,29 @@
-// import prismadb from "@/lib/prismadb"
-import { auth } from "@clerk/nextjs/server"
-
+import '@/app/globals.css'
 import { redirect } from "next/navigation"
+import { auth } from "@clerk/nextjs/server"
+import Navbar from "@/components/navbar"
 
-export default async function SetupLayout({
+export const metadata = {
+  title: "Админ панель",
+  description: "Админ панель",
+}
+
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  // const { userId } = auth()
 
-  // if (!userId) {
-  //   redirect("/sign-in")
-  // }
+  const { userId } = auth()
 
-  // const store = await prismadb.store.findFirst({
-  //   where: {
-  //     userId,
-  //   },
-  // })
+  if (!userId) {
+    redirect("/sign-in")
+  }
 
-  // if (store) {
-  //   redirect(`/${store.id}`)
-  // }
-
-  return <>{children}</>
+  return (
+    <div className=''>
+      <Navbar />
+      {children}
+    </div>
+  )
 }
