@@ -32,6 +32,9 @@ export default function RootLayout({
             }}
         >
             <html lang="en" className={nunito.className}>
+                <head>
+                    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                </head>
                 <body className="d-flex flex-col h-[100vh]">
                     {/* <ThemeProvider attribute='class' defaultTheme='system' enableSystem> */}
                     <ToastProvider />

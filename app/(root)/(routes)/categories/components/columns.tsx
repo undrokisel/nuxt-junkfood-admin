@@ -24,6 +24,22 @@ export const columns: ColumnDef<CategoryColumn>[] = [
   {
     accessorKey: "createdAt",
     header: "Дата создания",
+    cell: ({ row }) => {
+      const dateString: string = row.getValue('createdAt');
+      const date = new Date(dateString); // Преобразуем строку в Date
+      
+      return (
+        <div>
+          {date.toLocaleDateString()}; <br />
+          {date.toLocaleTimeString()}
+        </div>
+      )
+    }
+
+
+
+
+
   },
   {
     header: "Действия",

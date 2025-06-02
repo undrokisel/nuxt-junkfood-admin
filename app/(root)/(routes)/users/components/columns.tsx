@@ -36,6 +36,15 @@ export const columns: ColumnDef<UserColumn>[] = [
     {
         accessorKey: 'verified',
         header: 'Дата подтверждения аккаунта',
+        cell: ({ row }) => {
+            const date: Date = row.getValue('createdAt')
+            return (
+                <div>
+                    {date.toLocaleDateString()}; <br />
+                    {date.toLocaleTimeString()}
+                </div>
+            )
+        },
     },
     {
         accessorKey: 'provider',
@@ -44,6 +53,15 @@ export const columns: ColumnDef<UserColumn>[] = [
     {
         accessorKey: 'createdAt',
         header: 'Дата создания',
+        cell: ({ row }) => {
+            const date: Date = row.getValue('createdAt')
+            return (
+                <div>
+                    {date.toLocaleDateString()}; <br />
+                    {date.toLocaleTimeString()}
+                </div>
+            )
+        },
     },
     {
         header: 'Действия',

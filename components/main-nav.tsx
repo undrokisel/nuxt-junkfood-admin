@@ -38,13 +38,19 @@ export function MainNav({
             label: 'Пользователи',
             active: pathname === `/users`,
         },
+        {
+            href: `/candidates`,
+            label: 'Кандидаты',
+            active: pathname === `/candidates`,
+        },
     ]
 
     return (
         <nav
             className={cn(
-                `flex justify-center items-center flex-wrap gap-2
-                space-x-4 lg:space-x-6 bg-gray-50 bg-transparent min-h-11 py-4
+                `flex justify-center  items-center flex-wrap gap-2
+                _space-x-4 lg:space-x-6 bg-gray-50 bg-transparent 
+                sm:min-h-11 py-1 sm:py-4
                 `,
                 className
             )}
@@ -65,8 +71,8 @@ export function MainNav({
                     <Link
                         href={route.href}
                         className={cn(
-                            `flex items-center font-bold h-11 rounded-xl 
-                        transition-colors duration-300 px-5
+                            `flex items-center font-bold sm:h-11 rounded-xl 
+                        transition-colors duration-300 px-1 sm:px-5
                         hover:text-amber-200 
                         focus:text-amber-200 
                         focus:border-none

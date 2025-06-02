@@ -20,7 +20,7 @@ export const ProductsClient: React.FC<ProductsClientProps> = ({ data }) => {
 
     return (
         <>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-2 flex-wrap">
                 <Heading
                     title={`Продукты (${data.length})`}
                     description="Администрирование продуктов"
@@ -29,7 +29,7 @@ export const ProductsClient: React.FC<ProductsClientProps> = ({ data }) => {
                     className="bg-green-100
                     transition-all duration-300
                     hover:bg-amber-100 focus:bg-amber-100
-                    hover:translate-y-1 focus:translate-y-1
+                    hover:translate-y-1 focus:translate-y-1 h-full
                     "
                     onClick={() => router.push(`/products/new`)}
                 >

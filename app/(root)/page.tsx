@@ -22,6 +22,7 @@ const DashboardPage: React.FC<DashboardPageProps> = async () => {
     const salesCount = await getSalesCount()
     const stockCount = await getStockCount()
 
+
     return (
         <div className="flex-col">
             <div className="flex-1 space-y-4 p-8 pt-6">
@@ -30,16 +31,16 @@ const DashboardPage: React.FC<DashboardPageProps> = async () => {
                     description="обзор показателей ресторана"
                 />
                 <Separator />
-                <div className="grid gap-4 grid-cols-3">
-                    <Card>
+                <div className="grid gap-1 sm:gap-4 grid-cols-1 sm:grid-cols-3">
+                    <Card className=''>
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                             <CardTitle className="text-sm font-medium">
-                                Доход ресторана
+                                Доход
                             </CardTitle>
-                            <RussianRuble className="h-4 w-4 text-muted-foreground" />
+                            <RussianRuble className=" h-4 w-4 min-h-4 min-w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">
+                            <div className="sm:text-2xl font-bold ">
                                 {formatter.format(totalRevenue)}
                             </div>
                         </CardContent>
@@ -49,10 +50,10 @@ const DashboardPage: React.FC<DashboardPageProps> = async () => {
                             <CardTitle className="text-sm font-medium">
                                 Чеков всего
                             </CardTitle>
-                            <CreditCard className="h-4 w-4 text-muted-foreground" />
+                            <CreditCard className=" h-4 w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">
+                            <div className="sm:text-2xl font-bold">
                                 +{salesCount}
                             </div>
                         </CardContent>
@@ -62,10 +63,10 @@ const DashboardPage: React.FC<DashboardPageProps> = async () => {
                             <CardTitle className="text-sm font-medium">
                                 Видов товаров
                             </CardTitle>
-                            <Package className="h-4 w-4 text-muted-foreground" />
+                            <Package className="  h-4 w-4 min-h-4 min-w-4 text-muted-foreground" />
                         </CardHeader>
                         <CardContent>
-                            <div className="text-2xl font-bold">
+                            <div className="sm:text-2xl font-bold">
                                 {stockCount}
                             </div>
                         </CardContent>
